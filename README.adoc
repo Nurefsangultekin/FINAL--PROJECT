@@ -8,9 +8,22 @@
 
 Bu proje ile:
 
-1. **Neo4j Graph** veritabanı kullanılarak kişisel veri envanteri oluşturulabilir.
+1. **Neo4j Graph** veritabanı kullanılarak kişisel veri envanteri için gerekli olan verilere erişim sağlanarak departmanların işlediği veriler ve departmanlar arası veri aktarımı olup/olmadığı bilgisine ulaşılabilir.
 2. **Hukuki metinler** işlenen verilere göre otomatik önerilebilir (Aydınlatma, Açık Rıza, KVKK Metinleri).
-3. **Müşteri verileri** ile sözleşme, ürün ve sorumlu bilgileri doğal dilde sorgulanabilir.
+3. **Müşteri verileri** ile sözleşme, ürün ve sorumlu kişi bilgileri sorgulanabilir.
+
+## 🧠 Proje Amacı (Ayrıntılı Açıklama)
+
+Bu projede şirket içi veri envanteri, hukuki metin üretimi ve müşteri sözleşme takibi gibi süreçler; Neo4j bilgi grafı, LangChain LLM ve FAISS vektör veritabanı kullanılarak bir araya getirilmiştir.
+
+### 🔹 1. Amaç: Kişisel Veri Envanteri
+Neo4j üzerinde şirket içi departmanlar ve bu departmanların işlediği veriler, aralarındaki veri aktarımlarıyla birlikte modellendi. Bu yapı, departmanların hangi kişisel verileri işlediğini ve hangi birimlerle veri paylaştığını görselleştirip sorgulama imkanı sunar.
+
+### 🔹 2. Amaç: Otomatik Hukuki Metin Üretimi
+Sık kullanılan hukuki metinler (Aydınlatma Metni, Açık Rıza, KVKK Onay vb.) veri türleriyle ilişkilendirilerek graf modele eklendi. Kullanıcı, chatbot üzerinden 5 farklı veri türü seçerek bu verilere uygun şekilde hazırlanmış otomatik metin taslağı alabilir.
+
+### 🔹 3. Amaç: Müşteri Sözleşme Sorgusu
+Müşterilere ait ürün kullanımı, SLA, sözleşme süresi gibi veriler içeren CSV dosyaları modele entegre edilmiştir. Kullanıcılar chatbot üzerinden “X A.Ş. sözleşmesi ne zaman bitiyor?” gibi sorularla yanıt alabilir.
 
 ---
 
@@ -34,5 +47,59 @@ llm-vectors-unstructured/
 ├── query_customer_neo4j.py       # Müşteri verisi sorgulama (Neo4j)
 ├── query_vector_db.py            # Vektör veritabanı sorguları (FAISS)
 ├── create_embeddings.py          # Embedding oluşturma scripti
-├── legal_vector_index/           # Vektör embedding dizinleri
+├── legal_vector_index/           # Vektör embedding dizinleri - FAISS vektör veri dizinleri
 ├── *.csv                         # Veri setleri (metinler, müşteri verisi vb.)
+
+📁  Klasör Yapısı
+
+llm-vectors-unstructured/
+│
+├── app.py                       # Ana uygulama dosyası
+├── query_customer_neo4j.py     # Müşteri sorguları için alt modül
+├── data/                       # Veri CSV dosyaları
+├── legal_vector_index/         # FAISS vektör veri dizinleri
+├── .env                        # Ortam değişkenleri
+├── requirements.txt            # Gerekli Python kütüphaneleri
+└── README.md                   # Bu dosya
+---
+
+## ⚙️ Kurulum
+
+1. Repoyu klonlayın:
+```bash
+git clone https://github.com/kendi-linkin
+cd llm-vectors-unstructured
+```
+
+2. Gerekli paketleri kurun:
+```bash
+pip install -r requirements.txt
+```
+
+3. `.env` dosya bilgileri:
+```
+OPENAI_API_KEY=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
+NEO4J_URI=neo4j+s://67a5ed6c.databases.neo4j.io
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=H-QNvgNcVbMOO2p0ZQhNlAVFxptJOusFf0Hr4lj3tMY
+```
+
+4. Uygulamayı başlatın:
+```bash
+streamlit run app.py
+```
+
+## 💬 Örnek Sorgular
+
+- “Satış departmanı hangi verileri işler?”
+- “Pazarlama departmanı hangi birimlere veri aktarır?”
+- “X A.Ş. sözleşme bitiş tarihi nedir?”
+- “Ad, Soyad, Mail bilgisi ile Aydınlatma metni üret”
+
+## 📷 Ekran Görüntüleri
+
+👉 Ekran görüntüleri ve model yapısı belgelerde ve demo videosunda sunulmuştur.
+
+## 🎥 Demo Videosu
+
+👉 [Video bağlantısını buraya ekleyin]
