@@ -1,23 +1,34 @@
 import os
 from dotenv import load_dotenv
+
+from langchain_openai import ChatOpenAI
+from langchain_community.graphs import Neo4jGraph
+from langchain_community.chains.graph_qa.cypher import GraphCypherQAChain
+
+# Ortam değişkenlerini yükle
 load_dotenv()
 
-from openai import OpenAI
+# Neo4j bağlantısı
+graph = Neo4jGraph(
+    url=os.getenv("NEO4J_URI"),
+    username=os.getenv("NEO4J_USERNAME"),
+    password=os.getenv("NEO4J_PASSWORD"),
+)
 
-llm = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+# OpenAI modelini başlat
+llm = ChatOpenAI(model="gpt-4", temperature=0)
 
-response = llm.embeddings.create(
-        input="What does Hallucination mean?",
-        model="text-embedding-ada-002"
-    )
+# LangChain Cypher Q&A zinciri
+chain = GraphCypherQAChain.from_llm(
+    llm=llm,
+    graph=graph,
+    verbose=True,
+    allow_dangerous_requests=True  # Bu satır çok kritik
+)
 
-embedding = response.data[0].embedding
+# Test sorgusu
+question = "Hukuk departmanının işlediği veriler nelerdir?"
+response = chain.run(question)
 
-# Connect to Neo4j
-# graph = 
-
-# Run query
-# result = 
-
-# Display results
-# for row ... 
+print("Soru:", question)
+print("Cevap:", response)

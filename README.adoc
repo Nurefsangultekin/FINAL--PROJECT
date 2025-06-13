@@ -1,30 +1,38 @@
-= Introduction to Vector Indexes and Unstructured Data
+# 🧠 LEGRA - Streamlit Tabanlı, LLM Destekli Knowledge Graph Chatbot
 
-This repository accompanies the link:https://graphacademy.neo4j.com/courses/llm-vectors-unstructured/[Introduction to Vector Indexes and Unstructured Data^] on link:https://graphacademy.neo4j.com[GraphAcademy^].
+**LEGRA**, kişisel verilerin işlenmesi ve yönetilmesi konusunda şirket içi departmanların ilişkilerini ve müşteri sözleşmelerini sorgulamak, ayrıca kullanıcıya hukuki metin önerileri sunmak üzere geliştirilmiş LLM destekli bir chatbot sistemidir.
 
-For a complete walkthrough of this repository, link:https://graphacademy.neo4j.com/courses/llm-vectors-unstructured/[enrol now^].
+---
 
-link:https://codespaces.new/neo4j-graphacademy/llm-chatbot-python[image:https://github.com/codespaces/badge.svg[Open in GitHub Codespaces]^]
+## 🚀 Proje Amacı
 
-== Tests
+Bu proje ile:
 
-To run the solution tests: 
+1. **Neo4j Graph** veritabanı kullanılarak kişisel veri envanteri oluşturulabilir.
+2. **Hukuki metinler** işlenen verilere göre otomatik önerilebilir (Aydınlatma, Açık Rıza, KVKK Metinleri).
+3. **Müşteri verileri** ile sözleşme, ürün ve sorumlu bilgileri doğal dilde sorgulanabilir.
 
-. Create blank Neo4j instance
-. Create a virtual environment and install the requirements.
-+ 
-[source,sh]
-pip install -r requirements.txt
-. Download `textblob` data
-+ 
-[source,sh]
-python -m textblob.download_corpora
-. Install `pytest`
-+
-[source,sh]
-pip install pytest
-. Create a `.env` file in the root directory. Use `.env.example` as a template.
-. Run the tests
-+
-[source,sh]
-pytest llm-vectors-unstructured/solutions
+---
+
+## 🧰 Kullanılan Teknolojiler
+
+- **Streamlit** – Kullanıcı dostu web arayüzü
+- **Neo4j** – Knowledge Graph veritabanı
+- **LangChain** – LLM ile Cypher üretimi ve zincir yapılar
+- **FAISS** – Vector tabanlı semantic search
+- **OpenAI GPT-4** – LLM motoru
+- **Python** – Backend dili
+
+---
+
+## 📁 Proje Yapısı
+
+```bash
+llm-vectors-unstructured/
+│
+├── app.py                         # Ana uygulama arayüzü (Streamlit)
+├── query_customer_neo4j.py       # Müşteri verisi sorgulama (Neo4j)
+├── query_vector_db.py            # Vektör veritabanı sorguları (FAISS)
+├── create_embeddings.py          # Embedding oluşturma scripti
+├── legal_vector_index/           # Vektör embedding dizinleri
+├── *.csv                         # Veri setleri (metinler, müşteri verisi vb.)
